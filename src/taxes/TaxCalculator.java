@@ -7,22 +7,10 @@ import java.text.DecimalFormat;
 public class TaxCalculator {
 
 	public static void main(String[] args) {
-		try {
-			InputStreamReader isr = new InputStreamReader(System.in);
-			BufferedReader br = new BufferedReader(isr);
 
-			System.out.print("Enter income: ");
-			income = Double.parseDouble(br.readLine());
-
-			System.out.print("Contract Type: (E)mployment, (C)ivil: ");
-			contractType = br.readLine().charAt(0);
-
-		} catch (Exception ex) {
-			System.out.println("Incorrect");
-			System.err.println(ex);
-			return;
-		}
-
+		double income = getUserInput();
+        char contractType = getContractType();
+		
 		DecimalFormat df00 = new DecimalFormat("#.00");
 		DecimalFormat df = new DecimalFormat("#");
 
@@ -114,6 +102,31 @@ public class TaxCalculator {
 			System.out.println("Unknown type of contract!");
 		}
 	}
+
+	private static double getUserInput() {
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print("Enter income: ");
+            return Double.parseDouble(br.readLine());
+        } catch (Exception ex) {
+            System.out.println("Incorrect input");
+            System.err.println(ex);
+            return 0;
+        }
+    }
+
+    private static char getContractType() {
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print("Contract Type: (E)mployment, (C)ivil: ");
+            return br.readLine().charAt(0);
+        } catch (Exception ex) {
+            System.out.println("Incorrect input");
+            System.err.println(ex);
+            return ' ';
+        }
+    }
+
 
 	public static void calculateAdvanceTax() {
 		advanceTaxPaidadvanceTax - soc_health2 - taxFreeIncome;
