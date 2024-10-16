@@ -1,10 +1,12 @@
-package com.bartoszwalter.students.taxes;
+package taxes;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 
-public static void main(String[] args) {
+public class TaxCalculator {
+
+	public static void main(String[] args) {
 		try {
 			InputStreamReader isr = new InputStreamReader(System.in);
 			BufferedReader br = new BufferedReader(isr);
@@ -133,3 +135,6 @@ public static void main(String[] args) {
 		soc_health2 = (income * 7.75) / 100;
 	}
 }
+	
+	
+
