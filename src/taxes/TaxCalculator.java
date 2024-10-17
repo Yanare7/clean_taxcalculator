@@ -7,13 +7,13 @@ import java.text.DecimalFormat;
 public class TaxCalculator {
 
     // Constants
-    private static final double SOC_SECURITY_RATE = 9.76; // Social security tax rate
-    private static final double SOC_HEALTH_SECURITY_RATE = 1.5; // Health security tax rate
-    private static final double SOC_SICK_SECURITY_RATE = 2.45; // Sickness security tax rate
-    private static final double TAX_DEDUCTIBLE_EXPENSES_RATE = 20; // Tax deductible expenses rate
-    private static final double ADVANCE_TAX_RATE = 18; // Advance tax rate
-    private static final double SOC_HEALTH1_RATE = 9; // Health social security rate 1
-    private static final double SOC_HEALTH2_RATE = 7.75; // Health social security rate 2
+    private static final double SOCIAL_SECURITY_TAX_RATE = 9.76;
+    private static final double SOCIAL_HEALTH_SECURITY_TAX_RATE = 1.5;
+    private static final double SOCIAL_SICK_SECURITY_TAX_RATE = 2.45;
+    private static final double TAX_DEDUCTIBLE_EXPENSES_RATE = 20;
+    private static final double ADVANCE_TAX_RATE = 18;
+    private static final double SOCIAL_HEALTH1_RATE = 9;
+    private static final double SOCIAL_HEALTH2_RATE = 7.75;
 
     // Instance variables
     private double income; // User's income
@@ -125,15 +125,15 @@ public class TaxCalculator {
 
     // Method to calculate income after social security deductions
     private void calculateIncome() {
-        socSecurity = (income * SOC_SECURITY_RATE) / 100; // Calculate social security tax
-        socHealthSecurity = (income * SOC_HEALTH_SECURITY_RATE) / 100; // Calculate health security tax
-        socSickSecurity = (income * SOC_SICK_SECURITY_RATE) / 100; // Calculate sickness security tax
+        socSecurity = (income * SOCIAL_SECURITY_TAX_RATE) / 100; // Calculate social security tax
+        socHealthSecurity = (income * SOCIAL_HEALTH_SECURITY_TAX_RATE) / 100; // Calculate health security tax
+        socSickSecurity = (income * SOCIAL_SICK_SECURITY_TAX_RATE) / 100; // Calculate sickness security tax
     }
 
     // Method to calculate additional health taxes
     private void calculateOtherTaxes() {
-        socHealth1 = (income * SOC_HEALTH1_RATE) / 100; // Calculate health security tax at 9%
-        socHealth2 = (income * SOC_HEALTH2_RATE) / 100; // Calculate health security tax at 7.75%
+        socHealth1 = (income * SOCIAL_HEALTH1_RATE) / 100; // Calculate health security tax at 9%
+        socHealth2 = (income * SOCIAL_HEALTH2_RATE) / 100; // Calculate health security tax at 7.75%
     }
 
 	// Method to calculate taxDeductibleExpenses, taxedIncome, taxedIncomeRounded
