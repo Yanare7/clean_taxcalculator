@@ -63,43 +63,30 @@ public class TaxCalculator {
     // Method to calculate taxes based on the contract type
     private void calculateTaxes() {
 
+        printChoice();
+        calculateCommonTaxes();
+        printSecurTaxes();
+
         if (contractType == 'E') {
 
-			printChoice();
-
-            calculateIncome(); 
-			printSecurTaxes();
-
-            calculateOtherTaxes(); 
 			printNewHealthSocialSecurTax();
 			
-			calculateTaxedIncomeRounded();
 			printTaxedIncome();
             
-            calculateTax(); 
 			printCalculateTax();
 
-            calculateAdvanceTax(); 
 			printAtpNi();
 
         } else if (contractType == 'C') {
-			printChoice();
             calculateIncome(); 
-            System.out.println("Social security tax: " + df00.format(socSecurity));
-            System.out.println("Health social security tax: " + df00.format(socHealthSecurity));
-            System.out.println("Sickness social security tax: " + df00.format(socSickSecurity));
-            System.out.println("Income for calculating health social security tax: " + income);
-            calculateOtherTaxes(); 
             System.out.println("Health social security tax: 9% = " + df00.format(socHealth1) + " 7.75% = " + df00.format(socHealth2));
             taxDeductibleExpenses = (income * TAX_DEDUCTIBLE_EXPENSES_RATE) / 100; 
             System.out.println("Tax deductible expenses: " + df00.format(taxDeductibleExpenses));
             double taxedIncome = income - taxDeductibleExpenses; 
             double taxedIncomeRounded = Double.parseDouble(df.format(taxedIncome));
             System.out.println("Taxed income: " + taxedIncome + " rounded: " + df.format(taxedIncomeRounded));
-            calculateTax(); 
             System.out.println("Advance tax (18%): " + df00.format(advanceTax));
             System.out.println("Already paid tax: " + df00.format(advanceTaxPaid));
-            calculateAdvanceTax(); 
             double advanceTaxRounded = Double.parseDouble(df.format(advanceTaxPaid));
             System.out.println("Advance tax paid: " + df00.format(advanceTaxPaid) + " rounded: " + df.format(advanceTaxRounded));
             double netIncome = income - (socSecurity + socHealthSecurity + socSickSecurity + socHealth1 + advanceTaxRounded); // Calculate net income
@@ -109,13 +96,21 @@ public class TaxCalculator {
         }
     }
 
+    //TODO diviser en 2 methodes simples
     // Method to calculate advance tax
-    private void calculateAdvanceTax() {
+    private void calculateAdvanceTax() 
+    {
         advanceTaxPaid = advanceTax - socHealth2 - taxFreeIncome; // Adjust advance tax
 		advanceTaxRounded = Double.parseDouble(df.format(advanceTaxPaid)); // Round the adjusted advance tax
 		netIncome = income - (socSecurity + socHealthSecurity + socSickSecurity + socHealth1 + advanceTaxRounded); // Calculate net income
-
     }
+
+
+    private void calculateNetIncome() 
+    {
+        netIncome = income - (socSecurity + socHealthSecurity + socSickSecurity + socHealth1 + advanceTaxRounded);
+    }
+
 
     // Method to calculate advance tax and tax paid
     private void calculateTax() {
@@ -143,6 +138,14 @@ public class TaxCalculator {
 		taxedIncome = income - taxDeductibleExpenses; // Calculate taxed income
         taxedIncomeRounded = Double.parseDouble(df.format(taxedIncome)); // Rounded the taxed income
 	}
+
+    private void calculateCommonTaxes() {
+        calculateIncome();
+        calculateOtherTaxes();
+        calculateTaxedIncomeRounded();
+        calculateTax();
+        calculateAdvanceTax();
+    }
 
 	//Method to print the social security taxes
 	private void printSecurTaxes(){
