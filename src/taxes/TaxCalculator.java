@@ -37,8 +37,8 @@ public class TaxCalculator {
 
     // Main method
     public static void main(String[] args) {
-        TaxCalculator calculator = new TaxCalculator(); // Create an instance of TaxCalculator
-        calculator.getInput(); // Get user input
+        TaxCalculator calculator = new TaxCalculator(); 
+        calculator.getInput(); 
         calculator.calculateTaxes(); // Calculate taxes based on the contract type
     }
 
@@ -67,24 +67,23 @@ public class TaxCalculator {
 
 			printChoice();
 
-            calculateIncome(); // Calculate income and relevant taxes
+            calculateIncome(); 
 			printSecurTaxes();
 
-            calculateOtherTaxes(); // Calculate additional health taxes
+            calculateOtherTaxes(); 
 			printNewHealthSocialSecurTax();
 			
 			calculateTaxedIncomeRounded();
 			printTaxedIncome();
             
-            calculateTax(); // Calculate advance tax
+            calculateTax(); 
 			printCalculateTax();
 
-            calculateAdvanceTax(); // Calculate advance tax paid
+            calculateAdvanceTax(); 
 			printAtpNi();
 
         } else if (contractType == 'C') {
-            System.out.println("CIVIL CONTRACT");
-            System.out.println("Income: " + income);
+			printChoice();
             calculateIncome(); // Calculate income and relevant taxes
             System.out.println("Social security tax: " + df00.format(socSecurity));
             System.out.println("Health social security tax: " + df00.format(socHealthSecurity));
@@ -184,7 +183,7 @@ public class TaxCalculator {
 	//Method to print the choice : Employment or Civil
 	private void printChoice() {
 
-		if (contractType == E)
+		if (contractType == 'E')
 			System.out.println("EMPLOYMENT CONTRACT");
 		else
 			System.out.println("CIVIL CONTRACT");
