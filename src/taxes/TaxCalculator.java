@@ -84,22 +84,22 @@ public class TaxCalculator {
 
         } else if (contractType == 'C') {
 			printChoice();
-            calculateIncome(); // Calculate income and relevant taxes
+            calculateIncome(); 
             System.out.println("Social security tax: " + df00.format(socSecurity));
             System.out.println("Health social security tax: " + df00.format(socHealthSecurity));
             System.out.println("Sickness social security tax: " + df00.format(socSickSecurity));
             System.out.println("Income for calculating health social security tax: " + income);
-            calculateOtherTaxes(); // Calculate additional health taxes
+            calculateOtherTaxes(); 
             System.out.println("Health social security tax: 9% = " + df00.format(socHealth1) + " 7.75% = " + df00.format(socHealth2));
-            taxDeductibleExpenses = (income * TAX_DEDUCTIBLE_EXPENSES_RATE) / 100; // Calculate tax deductible expenses
+            taxDeductibleExpenses = (income * TAX_DEDUCTIBLE_EXPENSES_RATE) / 100; 
             System.out.println("Tax deductible expenses: " + df00.format(taxDeductibleExpenses));
-            double taxedIncome = income - taxDeductibleExpenses; // Calculate taxed income
+            double taxedIncome = income - taxDeductibleExpenses; 
             double taxedIncomeRounded = Double.parseDouble(df.format(taxedIncome));
             System.out.println("Taxed income: " + taxedIncome + " rounded: " + df.format(taxedIncomeRounded));
-            calculateTax(); // Calculate advance tax
+            calculateTax(); 
             System.out.println("Advance tax (18%): " + df00.format(advanceTax));
             System.out.println("Already paid tax: " + df00.format(advanceTaxPaid));
-            calculateAdvanceTax(); // Calculate advance tax paid
+            calculateAdvanceTax(); 
             double advanceTaxRounded = Double.parseDouble(df.format(advanceTaxPaid));
             System.out.println("Advance tax paid: " + df00.format(advanceTaxPaid) + " rounded: " + df.format(advanceTaxRounded));
             double netIncome = income - (socSecurity + socHealthSecurity + socSickSecurity + socHealth1 + advanceTaxRounded); // Calculate net income
