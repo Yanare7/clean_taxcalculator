@@ -30,7 +30,7 @@ public class TaxCalculator {
 	private double taxedIncome; 
 	private double taxedIncomeRounded; 
     private double advanceTax; 
-    private double taxFreeIncome = 0; 
+    private double taxFreeIncome = 46.33; 
 	private double taxPaid; 
     private double advanceTaxPaidRounded; 
     private double socHealth1; 
@@ -128,8 +128,8 @@ public class TaxCalculator {
         }
 		else if (contractType == 'C') {
             taxFreeIncome = 0;
-			taxDeductibleExpenses  = (income * TAX_DEDUCTIBLE_EXPENSES_RATE) / 100;
         }
+        taxDeductibleExpenses  = (income * TAX_DEDUCTIBLE_EXPENSES_RATE) / 100;
     }
 
 
