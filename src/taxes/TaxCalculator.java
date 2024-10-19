@@ -6,35 +6,40 @@ import java.text.DecimalFormat;
 
 public class TaxCalculator {
 
-    // Constants
+    // Constants in %
     private static final double SOCIAL_SECURITY_TAX_RATE = 9.76;
     private static final double SOCIAL_HEALTH_SECURITY_TAX_RATE = 1.5;
     private static final double SOCIAL_SICK_SECURITY_TAX_RATE = 2.45;
-    private static final double TAX_DEDUCTIBLE_EXPENSES_RATE = 20;
-    private static final double ADVANCE_TAX_RATE = 18;
     private static final double SOCIAL_HEALTH1_RATE = 9;
     private static final double SOCIAL_HEALTH2_RATE = 7.75;
+    private static final double TAX_DEDUCTIBLE_EXPENSES_RATE = 20;
+    private static final double ADVANCE_TAX_RATE = 18;
+
 
     // Instance variables
-    private double income; // User's income
-    private char contractType; // Type of contract (Employment or Civil)
-    private double socSecurity; // Social security tax
-    private double socHealthSecurity; // Health social security tax
-    private double socSickSecurity; // Sickness social security tax
-    private double taxDeductibleExpenses; // Tax deductible expenses
-	private double taxedIncome; // Income taxed
-	private double taxedIncomeRounded; // Income taxed and rounded
-    private double advanceTax; // Calculated advance tax
-    private double taxFreeIncome = 0; // Default tax-free income
-	private double taxPaid; // paid tax
-    private double socHealth1; // Health security tax at 9%
-    private double socHealth2; // Health security tax at 7.75%
-    private double advanceTaxPaid; 
+    private double income = 0; 
+    private char contractType = ' ';
+    
+    // social security taxes
+    private double socSecurity; 
+    private double socHealthSecurity; 
+    private double socSickSecurity; 
+
+
+    private double taxDeductibleExpenses; 
+	private double taxedIncome; 
+	private double taxedIncomeRounded; 
+    private double advanceTax; 
+    private double taxFreeIncome = 0; 
+	private double taxPaid; 
     private double advanceTaxPaidRounded; 
-	private double advanceTaxRounded; 
+    private double socHealth1; 
+    private double socHealth2; 
+    private double advanceTaxPaid; 
 	private double netIncome; 
 	private DecimalFormat df00 = new DecimalFormat("#.00"); // Decimal format for two decimal places
     private DecimalFormat df = new DecimalFormat("#"); // Decimal format for whole numbers
+
 
     // Main method
     public static void main(String[] args) 
@@ -65,7 +70,8 @@ public class TaxCalculator {
         }
     }
 
-    // Method to calculate taxes based on the contract type
+
+
     private void calculateTaxes() {
 
         calculateCommonTaxes();
@@ -99,7 +105,6 @@ public class TaxCalculator {
     //Calculate methods
 
 
-    // Method to calculate income after social security deductions
     private void calculateIncome() 
     {
         socSecurity = (income * SOCIAL_SECURITY_TAX_RATE) / 100; 
@@ -109,7 +114,6 @@ public class TaxCalculator {
 
 
 
-    // Method to calculate additional health taxes
     private void calculateOtherTaxes() 
     {
         socHealth1 = (income * SOCIAL_HEALTH1_RATE) / 100; 
@@ -124,13 +128,12 @@ public class TaxCalculator {
         }
 		else if (contractType == 'C') {
             taxFreeIncome = 0;
-			taxDeductibleExpenses  = (income * 20) / 100;
+			taxDeductibleExpenses  = (income * TAX_DEDUCTIBLE_EXPENSES_RATE) / 100;
         }
     }
 
 
     
-	// Method to calculate taxDeductibleExpenses, taxedIncome, taxedIncomeRounded
 	private void calculateTaxedIncome() 
     {
 		taxedIncome = income - taxDeductibleExpenses; 
@@ -139,7 +142,6 @@ public class TaxCalculator {
 
 
 
-    // Method to calculate advance tax and tax paid
     private void calculateTax() 
     {
         advanceTax = (taxedIncomeRounded * ADVANCE_TAX_RATE) / 100; 
@@ -147,19 +149,18 @@ public class TaxCalculator {
     
 
 
-    // Method to calculate advance tax
     private void calculateAdvanceTax() 
     {
         taxPaid = advanceTax - taxFreeIncome; 
         advanceTaxPaid = advanceTax - socHealth2 - taxFreeIncome; 
-		advanceTaxRounded = Double.parseDouble(df.format(advanceTaxPaid)); 
+		advanceTaxPaidRounded = Double.parseDouble(df.format(advanceTaxPaid)); 
     }
 
 
 
     private void calculateNetIncome() 
     {
-        netIncome = income - (socSecurity + socHealthSecurity + socSickSecurity + socHealth1 + advanceTaxRounded);
+        netIncome = income - (socSecurity + socHealthSecurity + socSickSecurity + socHealth1 + advanceTaxPaidRounded);
     }
     
 
@@ -174,9 +175,6 @@ public class TaxCalculator {
         CalculateTaxDeductibleExpenses();
         calculateTaxedIncome();
         calculateTax();
-
-
-
         calculateAdvanceTax();
         calculateNetIncome();
     }
@@ -190,7 +188,6 @@ public class TaxCalculator {
 
 
 
-	//Method to print the choice : Employment or Civil
 	private void printChoice() 
     {
 		if (contractType == 'E') {
@@ -204,7 +201,6 @@ public class TaxCalculator {
 
 
 
-	//Method to print the social security taxes
 	private void printSecurTaxes()
     {
 		System.out.println("Social security tax: " + df00.format(socSecurity));
@@ -230,14 +226,12 @@ public class TaxCalculator {
 
 
 
-	//Methode to print the tax deductible expenses and the taxed income
 	private void printTaxedIncome() 
     {
         System.out.println("income to be taxed = " + taxedIncome + " rounded = " + df.format(taxedIncomeRounded));
 	}
 
 
-	//Method to print
 	private void printCalculateTax1() 
     {
         System.out.println("Advance tax 18 % = " + advanceTax);
@@ -269,8 +263,6 @@ public class TaxCalculator {
         System.out.println();
         System.out.println("Net income = " + df00.format(netIncome));
     }
-
-
 
 
 
