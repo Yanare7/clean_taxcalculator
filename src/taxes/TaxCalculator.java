@@ -5,6 +5,22 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 
+
+enum ContractType {
+    EMPLOYMENT, CIVIL;
+
+    public static ContractType fromChar(char input) {
+        switch (Character.toUpperCase(input)) {
+            case 'E':
+                return EMPLOYMENT;
+            case 'C':
+                return CIVIL;
+            default:
+                throw new IllegalArgumentException("Unknown contract type: " + input);
+        }
+    }
+}
+
 public class TaxCalculator {
 
     // Constants in %
@@ -19,8 +35,8 @@ public class TaxCalculator {
 
     // Instance variables
     private double income = 0; //income in PLN 
-    private static char contractType = ' ';
-        
+    private static ContractType contractType = null;
+            
     // social security taxes
     private double socialSecurity; 
     private double socialHealthSecurity; 
@@ -42,6 +58,7 @@ public class TaxCalculator {
     private DecimalFormat decimalFormatRounded = new DecimalFormat("#"); // Decimal format for whole numbers
 
     
+
     // Main method
     public static void main(String[] args) 
     {
@@ -86,13 +103,14 @@ public class TaxCalculator {
     private void getInputContractType(BufferedReader bufferReader) throws IOException{
 
         System.out.print("Contract Type: (E)mployment, (C)ivil: ");
-        contractType = bufferReader.readLine().charAt(0);
+        char input_contractType = bufferReader.readLine().charAt(0);
                   
-        while (contractType != 'E' && contractType != 'C'){
+        while (input_contractType != 'E' && input_contractType != 'C'){
             System.err.println("Unknown type of contract!");
             System.out.print("Contract Type: (E)mployment, (C)ivil: ");
-            contractType = bufferReader.readLine().charAt(0);
+            input_contractType = bufferReader.readLine().charAt(0);
         }
+        contractType = ContractType.fromChar(input_contractType);
     }
 
     
@@ -174,10 +192,10 @@ public class TaxCalculator {
     private void calculateTaxes() 
     {
         switch (contractType ){
-            case ('C'):
+            case ContractType.CIVIL:
                 processCivilCalculateTaxes();
                 break;
-            case ('E'):
+            case ContractType.EMPLOYMENT:
                 processEmploymentCalculateTaxes();
                 break;
         }
@@ -190,12 +208,15 @@ public class TaxCalculator {
 
 	private void printDetailsContract() 
     {
-		if (contractType == 'E') {
-        	System.out.println("EMPLOYMENT CONTRACT");
+        switch (contractType){
+            case ContractType.EMPLOYMENT:
+                System.out.println("EMPLOYMENT CONTRACT");
+                break;
+            case ContractType.CIVIL:
+                System.out.println("CIVIL CONTRACT");
+                break;
         }
-		else {
-			System.out.println("CIVIL CONTRACT");
-        }
+
 		System.out.println("Income: " + income);
 	}
 
@@ -295,10 +316,10 @@ public class TaxCalculator {
     private void printAll() 
     {
         switch (contractType){
-            case ('C'):
+            case ContractType.CIVIL:
                 processCivilPrintAll();
                 break;
-            case ('E'):
+            case ContractType.EMPLOYMENT:
                 processEmploymentPrintAll();
                 break;
         }
