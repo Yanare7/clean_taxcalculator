@@ -1,6 +1,7 @@
 package taxes;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 
@@ -55,25 +56,11 @@ public class TaxCalculator {
     // Method to get user input for income and contract type
     private void getInput() {
         try {
-            InputStreamReader isr = new InputStreamReader(System.in);
-            BufferedReader br = new BufferedReader(isr);
+            InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+            BufferedReader bufferReader = new BufferedReader(inputStreamReader);
             
-            do{
-                System.out.print("Enter income: ");
-                income = Double.parseDouble(br.readLine());
-                if (income <= 0) {
-                    System.err.println("The income has to be postive.");                    
-                }
-            }while(income <= 0);
-            
-            do {
-                System.out.print("Contract Type: (E)mployment, (C)ivil: ");
-                contractType = br.readLine().charAt(0);
-                
-                if (contractType != 'E' && contractType != 'C') {
-                    System.err.println("Unknown type of contract!");  
-                }
-            } while (contractType != 'E' && contractType != 'C');
+            getInputIncome(bufferReader);
+            getInputContractType(bufferReader);
             
         } catch (Exception ex) {
             System.out.println("Incorrect input.");
@@ -81,6 +68,32 @@ public class TaxCalculator {
         }
     }
     
+
+
+    //getInputs method
+
+    private void getInputIncome(BufferedReader bufferReader) throws NumberFormatException, IOException {
+
+        System.out.print("Enter income: ");
+        income = Double.parseDouble(bufferReader.readLine());
+        while(income <= 0){
+            System.err.println("The income has to be postive."); 
+            System.out.print("Enter income: ");
+            income = Double.parseDouble(bufferReader.readLine());
+        }
+    }
+
+    private void getInputContractType(BufferedReader bufferReader) throws IOException{
+
+        System.out.print("Contract Type: (E)mployment, (C)ivil: ");
+        contractType = bufferReader.readLine().charAt(0);
+                  
+        while (contractType != 'E' && contractType != 'C'){
+            System.err.println("Unknown type of contract!");
+            System.out.print("Contract Type: (E)mployment, (C)ivil: ");
+            contractType = bufferReader.readLine().charAt(0);
+        }
+    }
 
     
     //Calculate methods
