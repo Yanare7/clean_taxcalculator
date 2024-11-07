@@ -34,11 +34,11 @@ public class TaxCalculator {
     private double taxPaid; 
     private double advanceTaxPaid; 
     private double advanceTaxPaidRounded; 
-    private double socialHealth1; 
-    private double socialHealth2; 
+    private double socialHealthTax1; 
+    private double socialHealthTax2; 
     private double netIncome; 
-    private DecimalFormat df00 = new DecimalFormat("#.00"); // Decimal format for two decimal places
-    private DecimalFormat df = new DecimalFormat("#"); // Decimal format for whole numbers
+    private DecimalFormat decimalFormatTwoDigits = new DecimalFormat("#.00"); // Decimal format for two decimal places
+    private DecimalFormat decimalFormatRounded = new DecimalFormat("#"); // Decimal format for whole numbers
 
     
     // Main method
@@ -96,20 +96,20 @@ public class TaxCalculator {
 
     private void calculateHealthTaxes() 
     {
-        socialHealth1 = (income * SOCIAL_HEALTH1_RATE) / 100; 
-        socialHealth2 = (income * SOCIAL_HEALTH2_RATE) / 100; 
+        socialHealthTax1 = (income * SOCIAL_HEALTH1_RATE) / 100; 
+        socialHealthTax2 = (income * SOCIAL_HEALTH2_RATE) / 100; 
     }    
 
 
-    private void calculateTaxDeductibleExpenses()
+    private void calculateTaxDeductibleExpensesForContractE()
     {
-        if (contractType == 'E') {
-            taxDeductibleExpenses = 111.25;
-        }
-		else if (contractType == 'C') {
-            taxFreeIncome = 0;
-            taxDeductibleExpenses  = (income * TAX_DEDUCTIBLE_EXPENSES_RATE) / 100;
-        }
+        taxDeductibleExpenses = 111.25;
+    }
+
+    private void calculateTaxDeductibleExpensesForContractC()
+    {
+        taxFreeIncome = 0;
+        taxDeductibleExpenses  = (income * TAX_DEDUCTIBLE_EXPENSES_RATE) / 100;
     }
 
 
@@ -117,7 +117,7 @@ public class TaxCalculator {
     private void calculateTax() 
     {
         taxedIncome = income - taxDeductibleExpenses; 
-        taxedIncomeRounded = Double.parseDouble(df.format(taxedIncome)); 
+        taxedIncomeRounded = Double.parseDouble(decimalFormatRounded.format(taxedIncome)); 
         advanceTax = (taxedIncomeRounded * ADVANCE_TAX_RATE) / 100; 
     }
     
@@ -126,27 +126,49 @@ public class TaxCalculator {
     private void calculateAdvanceTax() 
     {
         taxPaid = advanceTax - taxFreeIncome; 
-        advanceTaxPaid = advanceTax - socialHealth2 - taxFreeIncome; 
-		advanceTaxPaidRounded = Double.parseDouble(df.format(advanceTaxPaid)); 
+        advanceTaxPaid = advanceTax - socialHealthTax2 - taxFreeIncome; 
+		advanceTaxPaidRounded = Double.parseDouble(decimalFormatRounded.format(advanceTaxPaid)); 
     }
 
 
 
     private void calculateNetIncome() 
     {
-        netIncome = income - (socialSecurity + socialHealthSecurity + socialSickSecurity + socialHealth1 + advanceTaxPaidRounded);
+        netIncome = income - (socialSecurity + socialHealthSecurity + socialSickSecurity + socialHealthTax1 + advanceTaxPaidRounded);
     }
     
 
-
-    private void calculateTaxes() 
+    private void processCivilCalculateTaxes()
     {
         calculateSocialSecurity();
         calculateHealthTaxes();
-        calculateTaxDeductibleExpenses();
+        calculateTaxDeductibleExpensesForContractC();
         calculateTax();
         calculateAdvanceTax();
         calculateNetIncome();
+    }
+
+    private void processEmploymentCalculateTaxes()
+    {
+        calculateSocialSecurity();
+        calculateHealthTaxes();
+        calculateTaxDeductibleExpensesForContractE();
+        calculateTax();
+        calculateAdvanceTax();
+        calculateNetIncome();
+    }
+
+    private void calculateTaxes() 
+    {
+        switch (contractType ){
+            case ('C'):
+                processCivilCalculateTaxes();
+                break;
+            case ('E'):
+                processEmploymentCalculateTaxes();
+                break;
+        }
+        
     }
 
 
@@ -168,9 +190,9 @@ public class TaxCalculator {
 
 	private void printSecurityTaxes()
     {
-		System.out.println("Social security tax: " + df00.format(socialSecurity));
-        System.out.println("Health social security tax: " + df00.format(socialHealthSecurity));
-        System.out.println("Sickness social security tax: " + df00.format(socialSickSecurity));
+		System.out.println("Social security tax: " + decimalFormatTwoDigits.format(socialSecurity));
+        System.out.println("Health social security tax: " + decimalFormatTwoDigits.format(socialHealthSecurity));
+        System.out.println("Sickness social security tax: " + decimalFormatTwoDigits.format(socialSickSecurity));
         System.out.println("Income basis for health social security: " + income);
 	}
 
@@ -178,7 +200,7 @@ public class TaxCalculator {
 
 	private void printNewHealthSocialSecurTax() 
     {
-		System.out.println("Health social security tax: 9% = " + df00.format(socialHealth1) + " 7.75% = " + df00.format(socialHealth2));
+		System.out.println("Health social security tax: 9% = " + decimalFormatTwoDigits.format(socialHealthTax1) + " 7.75% = " + decimalFormatTwoDigits.format(socialHealthTax2));
 	
     }
 
@@ -186,39 +208,39 @@ public class TaxCalculator {
 
     private void printTaxedDeductible() 
     {
-		System.out.println("Tax deductible expenses: " + df00.format(taxDeductibleExpenses));
+		System.out.println("Tax deductible expenses: " + decimalFormatTwoDigits.format(taxDeductibleExpenses));
     }
 
 
 
 	private void printTaxedIncome() 
     {
-        System.out.println("income to be taxed = " + taxedIncome + " rounded = " + df.format(taxedIncomeRounded));
+        System.out.println("income to be taxed = " + taxedIncome + " rounded = " + decimalFormatRounded.format(taxedIncomeRounded));
 	}
 
 
 	private void printCalculateTax() 
     {
         System.out.println("Advance tax 18 % = " + advanceTax);
-
-        if (contractType == 'E') {
-
-            System.out.println("Tax free income = " + taxFreeIncome);
-        }
 	}
 
 
+    private void printTaxFreeIncome()
+    {
+        System.out.println("Tax free income = " + taxFreeIncome);
+
+    }
 
     private void printAlreadyPaidTax() 
     {
-        System.out.println("Already paid tax = " + df00.format(taxPaid));
+        System.out.println("Already paid tax = " + decimalFormatTwoDigits.format(taxPaid));
     }
 
 
 
 	private void printAdvancedTax() 
     {
-		System.out.println("Advance tax paid: " + df00.format(advanceTaxPaid) + " rounded: " + df.format(advanceTaxPaidRounded));
+		System.out.println("Advance tax paid: " + decimalFormatTwoDigits.format(advanceTaxPaid) + " rounded: " + decimalFormatRounded.format(advanceTaxPaidRounded));
 	}
 
 
@@ -226,13 +248,25 @@ public class TaxCalculator {
     private void printNetIncome() 
     {
         System.out.println();
-        System.out.println("Net income = " + df00.format(netIncome));
+        System.out.println("Net income = " + decimalFormatTwoDigits.format(netIncome));
     }
 
 
+    private void processEmploymentPrintAll()
+    {
+        printDetailsContract();
+        printSecurityTaxes();
+        printNewHealthSocialSecurTax();
+        printTaxedDeductible();
+        printTaxedIncome();
+        printCalculateTax();
+        printTaxFreeIncome()
+        printAlreadyPaidTax();
+        printAdvancedTax();
+        printNetIncome();
+    }
 
-
-    private void printAll() 
+    private void processCivilPrintAll()
     {
         printDetailsContract();
         printSecurityTaxes();
@@ -243,6 +277,18 @@ public class TaxCalculator {
         printAlreadyPaidTax();
         printAdvancedTax();
         printNetIncome();
+    }
+
+    private void printAll() 
+    {
+        switch (contractType){
+            case ('C'):
+                processCivilPrintAll();
+                break;
+            case ('E'):
+                processEmploymentPrintAll();
+                break;
+        }
 
     }
 
