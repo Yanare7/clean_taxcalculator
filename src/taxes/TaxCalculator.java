@@ -257,7 +257,7 @@ public class TaxCalculator {
         printTaxedDeductible();
         printTaxedIncome();
         printCalculateTax();
-        printTaxFreeIncome()
+        printTaxFreeIncome();
         printAlreadyPaidTax();
         printAdvancedTax();
         printNetIncome();
@@ -286,7 +286,6 @@ public class TaxCalculator {
                 processEmploymentPrintAll();
                 break;
         }
-
     }
 
 }
