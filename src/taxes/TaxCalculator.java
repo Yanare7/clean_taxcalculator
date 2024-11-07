@@ -57,21 +57,24 @@ public class TaxCalculator {
         try {
             InputStreamReader isr = new InputStreamReader(System.in);
             BufferedReader br = new BufferedReader(isr);
-    
-            System.out.print("Enter income: ");
-            income = Double.parseDouble(br.readLine());
-    
-            System.out.print("Contract Type: (E)mployment, (C)ivil: ");
-            try {
-                contractType = br.readLine().charAt(0);
-                if (contractType != 'E' && contractType != 'C') {
-                    throw new IllegalArgumentException("Valid contract type. Choose 'E' or 'C'.");
+            
+            do{
+                System.out.print("Enter income: ");
+                income = Double.parseDouble(br.readLine());
+                if (income <= 0) {
+                    System.err.println("The income has to be postive.");                    
                 }
-            } catch (Exception e) {
-                System.out.println("Unknown type of contract!"); // Handle unknown contract types
-                System.out.println("Error : " + e.getMessage());
-            }
-    
+            }while(income <= 0);
+            
+            do {
+                System.out.print("Contract Type: (E)mployment, (C)ivil: ");
+                contractType = br.readLine().charAt(0);
+                
+                if (contractType != 'E' && contractType != 'C') {
+                    System.err.println("Unknown type of contract!");  
+                }
+            } while (contractType != 'E' && contractType != 'C');
+            
         } catch (Exception ex) {
             System.out.println("Incorrect input.");
             System.err.println(ex);
