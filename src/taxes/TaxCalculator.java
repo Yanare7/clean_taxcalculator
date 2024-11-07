@@ -98,15 +98,15 @@ public class TaxCalculator {
     }    
 
 
-    private void calculateTaxDeductibleExpenses()
+    private void calculateTaxDeductibleExpensesForContractE()
     {
-        if (contractType == 'E') {
-            taxDeductibleExpenses = 111.25;
-        }
-		else if (contractType == 'C') {
-            taxFreeIncome = 0;
-            taxDeductibleExpenses  = (income * TAX_DEDUCTIBLE_EXPENSES_RATE) / 100;
-        }
+        taxDeductibleExpenses = 111.25;
+    }
+
+    private void calculateTaxDeductibleExpensesForContractC()
+    {
+        taxFreeIncome = 0;
+        taxDeductibleExpenses  = (income * TAX_DEDUCTIBLE_EXPENSES_RATE) / 100;
     }
 
 
