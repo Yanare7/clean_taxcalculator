@@ -139,7 +139,7 @@ public class TaxCalculator {
     {
         calculateSocialSecurity();
         calculateHealthTaxes();
-        calculateTaxDeductibleExpenses();
+        calculateTaxDeductibleExpensesForContractC();
         calculateTax();
         calculateAdvanceTax();
         calculateNetIncome();
@@ -149,7 +149,7 @@ public class TaxCalculator {
     {
         calculateSocialSecurity();
         calculateHealthTaxes();
-        calculateTaxDeductibleExpenses();
+        calculateTaxDeductibleExpensesForContractE();
         calculateTax();
         calculateAdvanceTax();
         calculateNetIncome();
@@ -219,14 +219,14 @@ public class TaxCalculator {
 	private void printCalculateTax() 
     {
         System.out.println("Advance tax 18 % = " + advanceTax);
-
-        if (contractType == 'E') {
-
-            System.out.println("Tax free income = " + taxFreeIncome);
-        }
 	}
 
 
+    private void printTaxFreeIncome()
+    {
+        System.out.println("Tax free income = " + taxFreeIncome);
+
+    }
 
     private void printAlreadyPaidTax() 
     {
@@ -249,9 +249,21 @@ public class TaxCalculator {
     }
 
 
+    private void processEmploymentPrintAll()
+    {
+        printDetailsContract();
+        printSecurityTaxes();
+        printNewHealthSocialSecurTax();
+        printTaxedDeductible();
+        printTaxedIncome();
+        printCalculateTax();
+        printTaxFreeIncome()
+        printAlreadyPaidTax();
+        printAdvancedTax();
+        printNetIncome();
+    }
 
-
-    private void printAll() 
+    private void processCivilPrintAll()
     {
         printDetailsContract();
         printSecurityTaxes();
@@ -262,6 +274,18 @@ public class TaxCalculator {
         printAlreadyPaidTax();
         printAdvancedTax();
         printNetIncome();
+    }
+
+    private void printAll() 
+    {
+        switch (contractType){
+            case ('C'):
+                processCivilPrintAll();
+                break;
+            case ('E'):
+                processEmploymentPrintAll();
+                break;
+        }
 
     }
 
