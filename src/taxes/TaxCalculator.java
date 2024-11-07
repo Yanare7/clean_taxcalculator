@@ -135,8 +135,7 @@ public class TaxCalculator {
     }
     
 
-
-    private void calculateTaxes() 
+    private void processCivilCalculateTaxes()
     {
         calculateSocialSecurity();
         calculateHealthTaxes();
@@ -144,6 +143,29 @@ public class TaxCalculator {
         calculateTax();
         calculateAdvanceTax();
         calculateNetIncome();
+    }
+
+    private void processEmploymentCalculateTaxes()
+    {
+        calculateSocialSecurity();
+        calculateHealthTaxes();
+        calculateTaxDeductibleExpenses();
+        calculateTax();
+        calculateAdvanceTax();
+        calculateNetIncome();
+    }
+
+    private void calculateTaxes() 
+    {
+        switch (contractType ){
+            case ('C'):
+                processCivilCalculateTaxes();
+                break;
+            case ('E'):
+                processEmploymentCalculateTaxes();
+                break;
+        }
+        
     }
 
 
