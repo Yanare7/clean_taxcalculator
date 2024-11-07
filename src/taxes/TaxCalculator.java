@@ -18,8 +18,8 @@ public class TaxCalculator {
 
     // Instance variables
     private double income = 0; //income in PLN 
-    private char contractType = ' ';
-    
+    private static char contractType = ' ';
+        
     // social security taxes
     private double socialSecurity; 
     private double socialHealthSecurity; 
@@ -27,27 +27,37 @@ public class TaxCalculator {
 
 
     private double taxDeductibleExpenses; 
-	private double taxedIncome; 
-	private double taxedIncomeRounded; 
+    private double taxedIncome; 
+    private double taxedIncomeRounded; 
     private double advanceTax; 
     private double taxFreeIncome = 46.33; // tax-free income monthly 46,33 PLN
-	private double taxPaid; 
+    private double taxPaid; 
     private double advanceTaxPaid; 
     private double advanceTaxPaidRounded; 
     private double socialHealth1; 
     private double socialHealth2; 
-	private double netIncome; 
-	private DecimalFormat df00 = new DecimalFormat("#.00"); // Decimal format for two decimal places
+    private double netIncome; 
+    private DecimalFormat df00 = new DecimalFormat("#.00"); // Decimal format for two decimal places
     private DecimalFormat df = new DecimalFormat("#"); // Decimal format for whole numbers
 
-
+    
     // Main method
     public static void main(String[] args) 
     {
         TaxCalculator calculator = new TaxCalculator(); 
         calculator.getInput(); 
-        calculator.calculateTaxes(); 
-        calculator.printAll();
+        
+        try {
+            if (contractType == 'E' || contractType == 'C') {
+                calculator.calculateTaxes(); 
+                calculator.printAll();   
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println("Unknown type of contract!"); // Handle unknown contract types
+
+        }
+        
     }
 
 
@@ -70,40 +80,8 @@ public class TaxCalculator {
         }
     }
 
-
-
-    private void calculateTaxes() {
-
-        calculateCommonTaxes();
-
-        if (contractType == 'E') {
-            processEmploymentContract();
-        } 
-        else if (contractType == 'C') {
-            processCivilContract();
-        } 
-        else {
-            System.out.println("Unknown type of contract!"); // Handle unknown contract types
-        }
-    }
-
-
-
-    private void processCivilContract() 
-    {
-
-
-    }
-
-    private void processEmploymentContract()
-    {
-
     
-    }
-
-
     //Calculate methods
-
 
     private void calculateSocialSecurity() 
     {
@@ -159,10 +137,7 @@ public class TaxCalculator {
     
 
 
-
-
-
-    private void calculateCommonTaxes() 
+    private void calculateTaxes() 
     {
         calculateSocialSecurity();
         calculateHealthTaxes();
@@ -174,12 +149,7 @@ public class TaxCalculator {
 
 
 
-
-
-
     //Print methods 
-
-
 
 	private void printDetailsContract() 
     {
