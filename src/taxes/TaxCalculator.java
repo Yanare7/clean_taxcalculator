@@ -59,13 +59,7 @@ public class TaxCalculator {
             BufferedReader br = new BufferedReader(isr);
     
             System.out.print("Enter income: ");
-            try {
-                income = Double.parseDouble(br.readLine());
-            } catch (NumberFormatException ex) {
-                System.out.println("Error : Invalid Income");
-                System.err.println(ex);
-                return; // Anticipated exit
-            }
+            income = Double.parseDouble(br.readLine());
     
             System.out.print("Contract Type: (E)mployment, (C)ivil: ");
             try {
