@@ -46,39 +46,44 @@ public class TaxCalculator {
     {
         TaxCalculator calculator = new TaxCalculator(); 
         calculator.getInput(); 
-        
-        try {
-            if (contractType == 'E' || contractType == 'C') {
-                calculator.calculateTaxes(); 
-                calculator.printAll();   
-            }
-        } catch (Exception e) {
-            // TODO: handle exception
-            System.out.println("Unknown type of contract!"); // Handle unknown contract types
-
-        }
+        calculator.calculateTaxes(); 
+        calculator.printAll();
         
     }
 
 
     // Method to get user input for income and contract type
-    private void getInput() 
-    {
+    private void getInput() {
         try {
             InputStreamReader isr = new InputStreamReader(System.in);
             BufferedReader br = new BufferedReader(isr);
-
+    
             System.out.print("Enter income: ");
-            income = Double.parseDouble(br.readLine());
-
+            try {
+                income = Double.parseDouble(br.readLine());
+            } catch (NumberFormatException ex) {
+                System.out.println("Error : Invalid Income");
+                System.err.println(ex);
+                return; // Anticipated exit
+            }
+    
             System.out.print("Contract Type: (E)mployment, (C)ivil: ");
-            contractType = br.readLine().charAt(0);
-
+            try {
+                contractType = br.readLine().charAt(0);
+                if (contractType != 'E' && contractType != 'C') {
+                    throw new IllegalArgumentException("Valid contract type. Choose 'E' or 'C'.");
+                }
+            } catch (Exception e) {
+                System.out.println("Unknown type of contract!"); // Handle unknown contract types
+                System.out.println("Error : " + e.getMessage());
+            }
+    
         } catch (Exception ex) {
-            System.out.println("Incorrect input");
+            System.out.println("Incorrect input.");
             System.err.println(ex);
         }
     }
+    
 
     
     //Calculate methods
